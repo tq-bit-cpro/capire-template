@@ -4,6 +4,8 @@ class TicketSerivce extends cds.ApplicationService {
   init() {
     const { Tickets } = this.entities;
 
+
+
     // Action /tickets/closeTicket
     // On how to implement queries, see
     // https://cap.cloud.sap/docs/node.js/core-services#rest-style-api
@@ -14,8 +16,8 @@ class TicketSerivce extends cds.ApplicationService {
       // const ticket = await this.read(Tickets).where({ ID: ticketId });
 
       // Use SELECT for custom error messages
-      const ticket = await SELECT.one.from(Tickets).where({ ID: ticketId });
-      if(!ticket) {
+      const ticket = await cds.ql.SELECT.one.from(Tickets).where({ ID: ticketId });
+      if (!ticket) {
         return req.error(404, 'TICKET_NOT_FOUND', [ticketId])
       }
       await this.update(Tickets).with({ state_ID: 5 }).where({ ID: ticketId });
@@ -25,6 +27,14 @@ class TicketSerivce extends cds.ApplicationService {
       // await cds.db.run(query)
 
       return { ticketId, Tickets }
+    });
+
+    // Action /tickets/createTicket
+    // Describes a custom action to create a ticket
+    this.on('createTicket', async (req) => {
+      const { title, description } = req.data;
+      await cds.ql.INSERT.into(Tickets).entries({ title, description, state_ID: 1 });
+      return { title, description }
     })
 
     this.after('READ', Tickets, (results) => {

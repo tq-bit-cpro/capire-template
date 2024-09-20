@@ -22,5 +22,18 @@
     "dev": "cds watch",
     "build": "cds build --production",
     "serve": "cd gen/pg && npm run start && cd ../srv && npm install && npm run start"
+  },
+  "cds": {
+    "requires": {
+      "auth": {
+        "kind": "mocked",
+        "users": {
+          "admin": {
+            "password": "admin",
+            "roles": ["admin"]
+          }
+        }
+      }
+    }
   }
 }
