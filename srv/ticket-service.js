@@ -9,6 +9,15 @@ class TicketSerivce extends cds.ApplicationService {
     // https://cap.cloud.sap/docs/node.js/core-services#rest-style-api
     this.on('closeTicket', async (req) => {
       const { ticketId } = req.data;
+
+      // Use this.read for automatic error messages
+      // const ticket = await this.read(Tickets).where({ ID: ticketId });
+
+      // Use SELECT for custom error messages
+      const ticket = await SELECT.one.from(Tickets).where({ ID: ticketId });
+      if(!ticket) {
+        return req.error(404, 'TICKET_NOT_FOUND', [ticketId])
+      }
       await this.update(Tickets).with({ state_ID: 5 }).where({ ID: ticketId });
 
       // Alternatively, construct a query and run it
