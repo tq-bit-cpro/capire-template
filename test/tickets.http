@@ -1,0 +1,37 @@
+# Create a new ticket entry
+POST http://localhost:4004/tickets/Tickets
+content-type: application/json
+
+{
+  "title": "New Ticket",
+  "description": "A description is to be provided for this particular element",
+  "state_ID": 1
+}
+
+###
+
+// Create protocol for ticket
+POST http://localhost:4004/tickets/Protocol
+content-type: application/json
+
+{
+  "title": "New Protocol",
+  "description": "An entry for a particular protocol entry",
+  "ticket_ID": "775f6d8d-6715-4580-ae44-545d9925d3e1"
+}
+
+###
+
+// View all tickets with their protocol entries
+GET http://localhost:4004/tickets/Tickets?$expand=protocol
+accept: application/json
+
+###
+
+// Call action: close ticket
+POST http://localhost:4004/tickets/closeTicket
+Content-Type: application/json
+
+{
+  "ticketId": "38503e27-e8aa-4abf-a7c9-212aaa64c394"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "capire-test",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.10.0",
+    "@sap/cds": "^8",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.6",
+    "@cap-js/sqlite": "^1"
+  },
+  "scripts": {
+    "start": "cds-serve --profile pg",
+    "setup:pg": "docker compose up -d && cds deploy --profile pg",
+    "setup:csv": "cds add data",
+    "dev:pg": "cds watch --profile pg",
+    "dev": "cds watch",
+    "build": "cds build --production",
+    "serve": "cd gen/pg && npm run start && cd ../srv && npm install && npm run start"
+  }
+}
